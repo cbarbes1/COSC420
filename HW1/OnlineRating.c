@@ -10,7 +10,9 @@
 #include <time.h>
 #include <stdlib.h>
 
-
+/* 
+ * Convert a string to an integer
+ */
 int strtoint(char *arg){
 	int result = 0;
 	int sign = 1;
@@ -41,6 +43,9 @@ int strtoint(char *arg){
 	return result;
 }
 
+/*
+ * Print a matrix in a "pretty" way
+ */
 void prettyprint(int **Array, int m, int n){
 	printf("  ");
 	for(int i = 0; i < n; i++){
@@ -63,23 +68,48 @@ void prettyprint(int **Array, int m, int n){
 
 }
 
-void selectionSort(float arr[], int n){
-	for(int i = 0; i< n - 1; i++){
+/* Quicksort function
+ * recursive function
+ * Parameters:
+ * 	float A: Array of floats 
+ * 	left: int the left side of the sort
+ * 	right: int the right side of the sort
+ */
+void quickSort(float A[], int left, int right) {
+	int i = left;
+	int j = right;
+	int mid = (left + right) / 2;
 
-		int min_idx = i;
-		for(int j = i+1; j < n; j++){
-			if(arr[j] < arr[min_idx])
-				min_idx = j;
-		}
-		if (min_idx != i){
-			float temp = arr[min_idx];
-			arr[min_idx] = arr[i];
-			arr[i] = temp;
+	float pivot = A[mid];
+
+	while (i <= j) {
+		while (A[i] < pivot)
+			i++;
+
+		while (A[j] > pivot)
+			j--;
+
+		if (i <= j) {
+			float tmp = A[i];
+			A[i] = A[j];
+			A[j] = tmp;
+			i++;
+			j--;
 		}
 	}
 
-}	
+	if (left < j)
+		quickSort(A, left, j);
 
+	if (i < right)
+		quickSort(A, i, right);
+}
+
+
+// first call setup
+void quickSortR(float A[], int size) {
+	quickSort(A, 0, size - 1);
+}
 
 int main(int argc, char **argv) {
 	
@@ -99,12 +129,13 @@ int main(int argc, char **argv) {
 	// convert input to integer with self made function
 	m = strtoint(argv[1]);
 	n = strtoint(argv[2]);
-
+	
 	// insufficient computational power error
-	if(size < m){
-		printf("Insufficient Friends to Run the script. Please go ask Dr. Jing to help you find friends");
-
-		MPI_Finalize();
+	if(size <= m){
+		if(rank == 0){
+			printf("Insufficient Friends to Run the script. Please go ask Dr. Jing to help you find friends\n");
+		}
+		MPI_Abort(MPI_COMM_WORLD, 404);
 	}
 
 	srand(time(NULL));
@@ -147,6 +178,7 @@ int main(int argc, char **argv) {
 		printf("\n");
 
 		// print the averages
+		printf("Before sort:\n");
 		for(int i = 0; i<m; i++){
 			printf("%.2f ", rating_averages[i]);
 		}
@@ -154,9 +186,10 @@ int main(int argc, char **argv) {
 		printf("\n");
 
 		// sort the averages
-		selectionSort(rating_averages, m);
+		quickSortR(rating_averages, m);
 
 		// print again
+		printf("After sort:\n");
 		for(int i = 0; i<m; i++){
 			printf("%.2f ", rating_averages[i]);
 		}
@@ -165,7 +198,8 @@ int main(int argc, char **argv) {
 		// clear the array
 		free(Ratings);
 	}
-	else{
+	else if(rank <= m){
+
 		int recv_count;
 
 
@@ -181,16 +215,13 @@ int main(int argc, char **argv) {
 		MPI_Get_count(&status, MPI_INT, &recv_count);
 
 		// get the total
-		printf("Child #%d\n ", rank);	
 		for(int i = 0; i< recv_count; i++){
-			//printf("%d |", Rating[i]);
-		
+			//printf("%d |", Rating[i]);	
 			total = total + Rating[i];
 		}
 
 		// find the average
 		float average = (float)total / n;
-		printf("%d: %.2f\n", rank, average);
 
 		// send the average
 		MPI_Send(&average, 1, MPI_FLOAT, 0, 77, MPI_COMM_WORLD);
@@ -206,4 +237,5 @@ int main(int argc, char **argv) {
 
 	// finalize
 	MPI_Finalize();
+	
 }

@@ -72,10 +72,11 @@ void prettyprint(int **Array, int m, int n){
  * recursive function
  * Parameters:
  * 	float A: Array of floats 
+ * 	int indexes: sort the indexes based on the given array so you can have the identifies
  * 	left: int the left side of the sort
  * 	right: int the right side of the sort
  */
-void quickSort(float A[], int left, int right) {
+void quickSort(float A[], int indexes[], int left, int right) {
 	int i = left;
 	int j = right;
 	int mid = (left + right) / 2;
@@ -93,22 +94,25 @@ void quickSort(float A[], int left, int right) {
 			float tmp = A[i];
 			A[i] = A[j];
 			A[j] = tmp;
+			int index = indexes[i];
+			indexes[i] = indexes[j];
+			indexes[j] = index;
 			i++;
 			j--;
 		}
 	}
 
 	if (left < j)
-		quickSort(A, left, j);
+		quickSort(A, indexes, left, j);
 
 	if (i < right)
-		quickSort(A, i, right);
+		quickSort(A, indexes, i, right);
 }
 
 
 // first call setup
-void quickSortR(float A[], int size) {
-	quickSort(A, 0, size - 1);
+void quickSortR(float A[], int indexes[], int size) {
+	quickSort(A, indexes, 0, size - 1);
 }
 
 int main(int argc, char **argv) {
@@ -162,41 +166,36 @@ int main(int argc, char **argv) {
 		}
 
 		// print the matrix in designed box
-		prettyprint(Ratings, m, n);
+		//prettyprint(Ratings, m, n);
 
 		// send each array
 		for(int i = 0; i<m; i++){
 			MPI_Send(Ratings[i], n, MPI_INT, (i+1), 555, MPI_COMM_WORLD);
 		}
 		float rating_averages[m];
-
+		int index_array[m];
 		// recieve each rating average
 		for(int i = 0; i<m; i++){
 			MPI_Recv(&rating_averages[i], 1, MPI_FLOAT, MPI_ANY_SOURCE, 77, MPI_COMM_WORLD, &status);
+			index_array[i] = i+1;
 		}
-
-		printf("\n");
-
-		// print the averages
-		printf("Before sort:\n");
-		for(int i = 0; i<m; i++){
-			printf("%.2f ", rating_averages[i]);
-		}
-
-		printf("\n");
 
 		// sort the averages
-		quickSortR(rating_averages, m);
+		quickSortR(rating_averages, index_array, m);
 
 		// print again
-		printf("After sort:\n");
+		printf("Ratings:\n");
 		for(int i = 0; i<m; i++){
-			printf("%.2f ", rating_averages[i]);
+			printf("%d: %.1f\n", index_array[i], rating_averages[i]);
 		}
 		printf("\n");
-
+		// clear each array
+		for(int i = 0; i<m; i++){
+			free(Ratings[i]);
+		}
 		// clear the array
 		free(Ratings);
+
 	}
 	else if(rank <= m){
 
@@ -210,7 +209,7 @@ int main(int argc, char **argv) {
 
 		// recieve the rating array from the parenti
 		MPI_Recv(Rating, n, MPI_INT, 0, 555, MPI_COMM_WORLD, &status);
-
+		
 		// GET THE COUNT
 		MPI_Get_count(&status, MPI_INT, &recv_count);
 

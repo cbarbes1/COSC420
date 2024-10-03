@@ -176,7 +176,7 @@ int main(int argc, char **argv) {
 		int index_array[m];
 		// recieve each rating average
 		for(int i = 0; i<m; i++){
-			MPI_Recv(&rating_averages[i], 1, MPI_FLOAT, MPI_ANY_SOURCE, 77, MPI_COMM_WORLD, &status);
+			MPI_Recv(&rating_averages[i], 1, MPI_FLOAT, (i+1), 77, MPI_COMM_WORLD, &status);
 			index_array[i] = i+1;
 		}
 

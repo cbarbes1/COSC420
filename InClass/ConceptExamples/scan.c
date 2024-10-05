@@ -16,13 +16,13 @@ int main(int argc, char **argv) {
 		int num_to_send = rand()%100+1;
 		printf("Rank: %d has %d\n", rank, num_to_send);	
 		MPI_Scan(&num_to_send, &number, 1, MPI_INT, MPI_SUM, MPI_COMM_WORLD);
-		printf("My Sum is : %d\n", number);
+		printf("At Rank: %d My Sum is : %d\n", rank, number);
 	} else {
 		int number;
 		int num_to_send_child = rand()%100+1;
 		printf("Rank: %d has %d\n", rank, num_to_send_child);
 		MPI_Scan(&num_to_send_child, &number, 1, MPI_INT, MPI_SUM, MPI_COMM_WORLD);
-		printf("My Sum is : %d\n", number);
+		printf("At Rank: %d My Sum is : %d\n", rank, number);
   	}
 
 	MPI_Finalize();

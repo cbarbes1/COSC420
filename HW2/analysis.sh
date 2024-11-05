@@ -1,12 +1,23 @@
 #!/bin/bash
+# purpose: To automate program compilation and data collection
+# Date created: 10-15-2024
+# Last Edited: 10-22-2024
+#
 
+
+# compile the programs
 mpicc -lm -o trap trapezoids.c
 gcc -lm -o serial trapezoidsSerial.c
 
+# check if output already exists and delete it
 if [[ -r "output.txt" ]]; then
 	rm output.txt
 fi
 
+
+# output all data for amdahls law
+#
+#
 echo "Serial"
 ./serial 1.0 20.0 10000000
 
@@ -38,6 +49,7 @@ echo "Run 9"
 mpirun -np 20 trap 1.0 20.0 10000000
 
 filename="output.txt"
+
 
 if [[ -r "$filename" ]]; then
 	serial=$(head -n 1 "$filename")
@@ -77,6 +89,7 @@ if [[ -r "output.txt" ]]; then
 	rm output.txt
 fi
 
+# collect the data for gustafsons law
 echo "Serial"
 ./serial 1.0 20.0 10000
 

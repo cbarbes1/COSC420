@@ -39,7 +39,7 @@ double trapezoid(double a, double b, int n){
 // main
 int main(int argc, char **argv)
 {
-	if(argc != 4){
+	if(argc < 4){
 		printf("Insufficient Arguments\n");
 		exit(1);
 	}
@@ -73,14 +73,15 @@ int main(int argc, char **argv)
 	int local_n = n/size;
 	// get the result of the local trapezoidal rule estimation
 	double result = trapezoid(local_a, local_b, local_n);
-	//
-	// get the end time
-	double end_time = MPI_Wtime();
-	// runtime
-	double runtime = end_time - start_time;
 
 	//MPI_Gather(&result, 1, MPI_DOUBLE, res_list, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 	MPI_Reduce(&result, &final_result, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
+
+	// get the end time
+	double end_time = MPI_Wtime();
+
+	// runtime
+	double runtime = end_time - start_time;
 	MPI_Reduce(&runtime, &min, 1, MPI_DOUBLE, MPI_MIN, 0, MPI_COMM_WORLD);
 	MPI_Reduce(&runtime, &max, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
 	MPI_Reduce(&runtime, &avg, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
@@ -98,7 +99,7 @@ int main(int argc, char **argv)
 		// print runtime stats
 		avg = avg / size;
 		printf("Among %d processes, the runtime statistics are :\nMin: %fs Max: %fs Avg: %fs\n", size, min, max, avg);
-
+			
 		FILE *file;
 
 		file = fopen("output.txt", "a");

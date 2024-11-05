@@ -1,0 +1,264 @@
+Serial
+a = 1.000000, b = 20.000000, n = 10000000
+My estimate of the Integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+The serial runtime for the trapezoid rule was 0.041645s
+Run 1
+With n = 10000000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 2 processes, the runtime statistics are :
+Min: 0.018394s Max: 0.018425s Avg: 0.018409s
+Run 2
+With n = 10000000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 4 processes, the runtime statistics are :
+Min: 0.009227s Max: 0.011285s Avg: 0.009782s
+Run 3
+With n = 10000000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 8 processes, the runtime statistics are :
+Min: 0.004600s Max: 0.006694s Avg: 0.004955s
+Run 4
+With n = 10000000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 10 processes, the runtime statistics are :
+Min: 0.003685s Max: 0.006268s Avg: 0.004720s
+Run 5
+With n = 10000000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 12 processes, the runtime statistics are :
+Min: 0.003062s Max: 0.005264s Avg: 0.004212s
+Run 6
+With n = 10000000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 14 processes, the runtime statistics are :
+Min: 0.002717s Max: 0.005046s Avg: 0.003938s
+Run 7
+With n = 10000000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 16 processes, the runtime statistics are :
+Min: 0.002300s Max: 0.004010s Avg: 0.003261s
+Run 8
+With n = 10000000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 18 processes, the runtime statistics are :
+Min: 0.002455s Max: 0.004074s Avg: 0.003360s
+Run 9
+With n = 10000000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 20 processes, the runtime statistics are :
+Min: 0.001835s Max: 0.003238s Avg: 0.002655s
+0.041645
+2 0.018394 0.018425 0.018409
+Speedup
+2.2602
+Efficiency
+1.1301
+Serial Fraction
+.1152
+Parallel Fraction
+.8848
+4 0.009227 0.011285 0.009782
+Speedup
+3.6902
+Efficiency
+.9225
+Serial Fraction
+.0279
+Parallel Fraction
+.9721
+8 0.004600 0.006694 0.004955
+Speedup
+6.2212
+Efficiency
+.7776
+Serial Fraction
+.0408
+Parallel Fraction
+.9592
+10 0.003685 0.006268 0.004720
+Speedup
+6.6440
+Efficiency
+.6644
+Serial Fraction
+.0561
+Parallel Fraction
+.9439
+12 0.003062 0.005264 0.004212
+Speedup
+7.9112
+Efficiency
+.6592
+Serial Fraction
+.0469
+Parallel Fraction
+.9531
+14 0.002717 0.005046 0.003938
+Speedup
+8.2530
+Efficiency
+.5895
+Serial Fraction
+.0535
+Parallel Fraction
+.9465
+16 0.002300 0.004010 0.003261
+Speedup
+10.3852
+Efficiency
+.6490
+Serial Fraction
+.0360
+Parallel Fraction
+.9640
+18 0.002455 0.004074 0.003360
+Speedup
+10.2221
+Efficiency
+.5678
+Serial Fraction
+.0447
+Parallel Fraction
+.9553
+20 0.001835 0.003238 0.002655
+Speedup
+12.8613
+Efficiency
+.6430
+Serial Fraction
+.0292
+Parallel Fraction
+.9708
+Serial
+a = 1.000000, b = 20.000000, n = 10000
+My estimate of the Integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+The serial runtime for the trapezoid rule was 0.000128s
+Run 1
+With n = 20000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 2 processes, the runtime statistics are :
+Min: 0.000034s Max: 0.000036s Avg: 0.000035s
+Run 2
+With n = 40000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 4 processes, the runtime statistics are :
+Min: 0.000038s Max: 0.000062s Avg: 0.000044s
+Run 3
+With n = 80000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 8 processes, the runtime statistics are :
+Min: 0.000038s Max: 0.000039s Avg: 0.000038s
+Run 4
+With n = 100000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 10 processes, the runtime statistics are :
+Min: 0.000039s Max: 0.000058s Avg: 0.000046s
+Run 5
+With n = 120000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 12 processes, the runtime statistics are :
+Min: 0.000038s Max: 0.000066s Avg: 0.000051s
+Run 6
+With n = 140000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 14 processes, the runtime statistics are :
+Min: 0.000039s Max: 0.000070s Avg: 0.000057s
+Run 7
+With n = 160000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 16 processes, the runtime statistics are :
+Min: 0.000038s Max: 0.000076s Avg: 0.000063s
+Run 8
+With n = 180000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 18 processes, the runtime statistics are :
+Min: 0.000038s Max: 0.000070s Avg: 0.000057s
+Run 9
+With n = 200000, The total of the estimate of the integral of x^2 on the interval
+from 1.00 to 20.00 = 2.66633e+03
+Among 20 processes, the runtime statistics are :
+Min: 0.000038s Max: 0.000069s Avg: 0.000055s
+0.000128
+2 0.000034 0.000036 0.000035
+Speedup
+7.1110
+Efficiency
+3.5555
+Serial Fraction
+.7188
+Parallel Fraction
+.2812
+4 0.000038 0.000062 0.000044
+Speedup
+8.2580
+Efficiency
+2.0645
+Serial Fraction
+.1719
+Parallel Fraction
+.8281
+8 0.000038 0.000039 0.000038
+Speedup
+26.2560
+Efficiency
+3.2820
+Serial Fraction
+.0993
+Parallel Fraction
+.9007
+10 0.000039 0.000058 0.000046
+Speedup
+22.0680
+Efficiency
+2.2068
+Serial Fraction
+.0607
+Parallel Fraction
+.9393
+12 0.000038 0.000066 0.000051
+Speedup
+23.2716
+Efficiency
+1.9393
+Serial Fraction
+.0440
+Parallel Fraction
+.9560
+14 0.000039 0.000070 0.000057
+Speedup
+25.5990
+Efficiency
+1.8285
+Serial Fraction
+.0348
+Parallel Fraction
+.9652
+16 0.000038 0.000076 0.000063
+Speedup
+26.9472
+Efficiency
+1.6842
+Serial Fraction
+.0270
+Parallel Fraction
+.9730
+18 0.000038 0.000070 0.000057
+Speedup
+32.9130
+Efficiency
+1.8285
+Serial Fraction
+.0266
+Parallel Fraction
+.9734
+20 0.000038 0.000069 0.000055
+Speedup
+37.1000
+Efficiency
+1.8550
+Serial Fraction
+.0242
+Parallel Fraction
+.9758

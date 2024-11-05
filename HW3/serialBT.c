@@ -77,9 +77,7 @@ void delete(struct node *nodeptr)
 
 // print the tree with a count variable to avoid too deep of a print
 void print(struct node *nodeptr){
-	static int count = 0;
-	if(nodeptr != NULL && count < 20){
-		count = count + 1;
+	if(nodeptr != NULL){
 		printf("%f ", nodeptr->val);
 		print(nodeptr->l);
 		print(nodeptr->r);
@@ -132,9 +130,9 @@ int main(int argc, char **argv)
 	struct node *ptr = BTConstruction(num_nodes);
 
 	int result = BTTraverse(ptr);
-
+	
 	printf("There are %d nodes in the tree less than 0.5\n", result);
-
+	print(ptr);
 
 	delete(ptr);
 	return 0;

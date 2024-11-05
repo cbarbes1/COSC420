@@ -1,0 +1,6 @@
+Cole Barbes
+In the first program, The program is fast but the sum is incorrect in most cases since there is a missed summation in the code when another thread gets locked out of the shared variable.
+
+In the second program, Using the critical directive allows to only access the variable on one thread at a time so the missed summation before will occur later. This is a much slower program since the threads wait for each other to finish.
+
+In the third program, Using the reduction allows each thread to access its own sum and then get a final reduction at the end. This is a much faster and more effective summation program.

@@ -73,21 +73,66 @@ int BTTraverseCount(struct node *nodeptr)
 // traverse the tree
 int BTTraverseCountl(struct node *nodeptr)
 {
-	if(nodeptr != NULL){
-		int count = BTTraverseCountl(nodeptr->l);
-		count = count + BTTraverseCountl(nodeptr->r);
-		if(nodeptr->val < 0.5){
-			count = count + 1;
-		}
 
-		return count;
-	}else {
-		return 0;
-	}
+    if(nodeptr == NULL){
+        return 0;
+    }
+    int count = 0, count1 = 0, count2 = 0;
+    #pragma omp parallel sections
+    {
+        #pragma omp section
+        {
+            count1 = BTTraverseCountl(nodeptr->l);
+        }
+        #pragma omp section
+        {
+            count2 =  BTTraverseCountl(nodeptr->r);
+        }
+    }
+    if(nodeptr->val < 0.5){
+        count = 1;
+    }
+    return count+count1+count2;
 }
 
+// Recursive function to create a binary tree
+struct node *CreateTree(struct node *nodeptr, int num_nodes, int depth) {
+    if (depth >= ((int)log2(num_nodes))) {
+        return nodeptr;
+    }
+
+    // Allocate and initialize the node
+    nodeptr = (struct node *)malloc(sizeof(struct node));
+    if (nodeptr == NULL) {
+        perror("Failed to allocate node");
+        exit(1);
+    }
+    nodeptr->val = (double)rand() / RAND_MAX;
+    nodeptr->l = NULL;
+    nodeptr->r = NULL;
+	
+
+	// Recursively create left and right subtrees
+	#pragma omp parallel sections
+	{
+		#pragma omp section
+		{
+			nodeptr->l = CreateTree(nodeptr->l, num_nodes, depth + 1);
+		}
+		#pragma omp section
+		{
+			nodeptr->r = CreateTree(nodeptr->r, num_nodes, depth + 1);
+		}
+	}
+	
+    return nodeptr;
+}
+
+
 int main(){
-    int count = (2000- 7)/8;
+    int count = 1048576/8;
+
+    double start = omp_get_wtime();
     struct node *head = CreateNode();
     for(int i = 0; i < 8; i++){
         struct node *ptr = CreateNode();
@@ -96,11 +141,8 @@ int main(){
 
     #pragma omp parallel for
     for(int k = 0; k < 8; k++){
-        struct node *localHead = CreateNode();
-        for(int i = 0; i < count-1; i++){
-            struct node *ptr = CreateNode();
-            insert(&localHead, &ptr);
-        }
+        struct node *localHead = NULL;
+        localHead = CreateTree(localHead, count, 0);
 
         #pragma omp critical
         {
@@ -108,10 +150,14 @@ int main(){
         }
     }
 
+
     int num_nodes = BTTraverseCountl(head);
 
     printf("Here is the size of the tree  with value less than 0.5 %d \n", num_nodes);
 
+    start = (double)omp_get_wtime() - start;
+
+    printf("Parallel program took %fs\n", start);
 
 
     delete(head);

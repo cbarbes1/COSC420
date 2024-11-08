@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 
 // node structure
 struct node {
@@ -62,6 +63,40 @@ void BTInsert(struct node **head, float value) {
 	}
 }
 
+
+struct node *CreateSubtreeRec(struct node *ptr, int depth, int max_depth)
+{
+	if(depth == max_depth){
+		return NULL;
+	}
+
+	depth++;
+	if(ptr == NULL){
+
+		ptr = (struct node *)malloc(sizeof(struct node));
+		ptr->val = (double)rand() / RAND_MAX;
+		ptr->l = NULL;
+		ptr->r = NULL;
+	
+
+		if(ptr->l == NULL){
+			ptr->l = CreateSubtreeRec(ptr->l, depth, max_depth);
+		}
+		if(ptr->r == NULL){
+			ptr->r = CreateSubtreeRec(ptr->r, depth, max_depth);
+		}
+	}
+	return ptr;
+}
+
+struct node *CreateSubtree(int depth, int max_depth)
+{
+	struct node *ptr = NULL;
+	ptr = CreateSubtreeRec(ptr, depth, max_depth);
+
+	ptr = CreateSubtreeRec(ptr, depth, max_depth);
+}
+
 // delete the tree
 void delete(struct node *nodeptr)
 {
@@ -84,6 +119,15 @@ void print(struct node *nodeptr){
 	}
 }
 
+/*
+struct node* BTConstructionParallel(int num_nodes, int num_threads)
+{
+	struct node *head = NULL;
+	for(int i = 0; i < log2(num_threads); i++){
+		InsertRec(&head, (double)rand() / RAND_MAX);
+	}
+}
+
 // construct the tree
 struct node* BTConstruction(int num_nodes)
 {
@@ -94,7 +138,7 @@ struct node* BTConstruction(int num_nodes)
 	}
 	return head;
 }
-
+*/
 // traverse the tree
 int BTTraverseCountl(struct node *nodeptr)
 {
@@ -140,11 +184,11 @@ int main(int argc, char **argv)
 
 	int num_nodes = atoi(argv[1]);
 
-	struct node *ptr = BTConstruction(num_nodes);
+	struct node *ptr = CreateSubtree(0, log2(num_nodes));
 
-	int result = BTTraverseCountl(ptr);
-	
-	printf("There are %d nodes in the tree less than 0.5\n", result);
+	int result = BTTraverseCount(ptr);
+	//print(ptr);	
+	printf("There are %d nodes in the tree\n", result);
 
 	delete(ptr);
 	return 0;

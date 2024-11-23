@@ -1,3 +1,7 @@
+/* Author: Cole Barbes Spencer Presley
+* Data created: 11/05/24
+* Purpose: create a binary tree in parallel
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -17,15 +21,20 @@ int main(int argc, char **argv){
     double start = omp_get_wtime();
     struct node *head = NULL;
 
-    head = OMPCreateTree(head, num_nodes, 0);
+    int BT_num_nodes = 0;
 
-    int BT_num_nodes = OMPBTTraverseCountl(head);
+
+    // parallel creation of 8 binary trees to count number of nodes under 0.5
+    // the reduction, schedule, and private are all needed to manage the threads access and make sure every thread has a task
+    #pragma omp parallel for reduction(+:BT_num_nodes) num_threads(8) schedule(static, 8) private(num_nodes)
+    for(int i = 0; i<8; i++)
+    {
+        struct node *localhead = NULL;
+        localhead = CreateTree(localhead, num_nodes, 0);
+        BT_num_nodes += BTTraverseCountl(localhead);
+    }
 
     printf("Here is the size of the tree  with value less than 0.5 %d \n", BT_num_nodes);
-
-    // BT_num_nodes = BTTraverseCount(head);
-
-    // printf("Here is the size of the tree %d \n", BT_num_nodes);
 
     start = (double)omp_get_wtime() - start;
 
@@ -33,4 +42,5 @@ int main(int argc, char **argv){
 
 
     delete(head);
+    return 0;
 }
